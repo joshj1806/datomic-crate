@@ -10,7 +10,7 @@
 ;;                                  /opt/local/datomic/version
 ;; * Install the upstart service (IT DOES NOT RUN THE SERVICE)
 (ns pallet.crate.datomic
-  (:require 
+  (:require
    pallet.node
    [clojure.string :as s]
    [pallet.actions :as actions]
@@ -145,8 +145,9 @@
          offline (:offline settings)
          file-name (str (datomic-file-name version type) ".zip")
          *datomic-root* (format "%s/local/datomic" (:install-dir settings))]
-    (println (str "\n datomic  Installing from OFFLINE -> " offline
-                  ", directory to be installed datomcic is " *datomic-root* "\n"))
+    (println (str "\n datomic 0.8.11  Installing from OFFLINE -> " offline
+                  ", directory to be installed datomcic is " *datomic-root* "\n"
+                  ", file-name : " file-name ", url : " url "\n"))
     (case offline
       true (actions/remote-directory
             *datomic-root*
@@ -163,10 +164,7 @@
              :group group)
       (do
         (println (str "\n datomic WARNING : installing from online"))
-        (actions/remote-directory *datomic-root* :url url :unpack :unzip :owner user :group group))
-      )
-    )
-  )
+        (actions/remote-directory *datomic-root* :url url :unpack :unzip :owner user :group group)))))
 
 (crate/defplan install
   "Install datomic"
